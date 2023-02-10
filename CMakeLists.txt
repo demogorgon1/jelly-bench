@@ -49,4 +49,8 @@ else()
 	)	
 endif()
 
+include_directories(sqlite)
+
+add_subdirectory(sqlite)
 add_subdirectory(src)
+

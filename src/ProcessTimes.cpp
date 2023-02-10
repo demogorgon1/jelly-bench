@@ -19,6 +19,9 @@ namespace jellybench::ProcessTimes
 			static_assert(sizeof(FILETIME) == sizeof(uint64_t));
 			BOOL result = GetProcessTimes(GetCurrentProcess(), &creationTime, &exitTime, (FILETIME*)&aOut.m_kernel, (FILETIME*)&aOut.m_user);
 			JELLY_ASSERT(result != 0);
+
+			aOut.m_kernel /= 10;
+			aOut.m_user /= 10;
 		#endif
 	}
 

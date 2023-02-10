@@ -17,11 +17,13 @@ namespace jellybench::Write
 		std::mt19937 random;
 		RandomBlobCache randomBlobCache(aConfig, random);
 
+		std::chrono::time_point<std::chrono::steady_clock> startTime = std::chrono::steady_clock::now();
+
 		double pending = 0.0;
-		std::chrono::time_point<std::chrono::steady_clock> prevTime = std::chrono::steady_clock::now();
+		std::chrono::time_point<std::chrono::steady_clock> prevTime = startTime;
 		uint32_t seq = 0;
 
-		std::chrono::time_point<std::chrono::steady_clock> endTime = prevTime + std::chrono::seconds(aConfig->m_writeRunSeconds);
+		std::chrono::time_point<std::chrono::steady_clock> endTime = startTime + std::chrono::seconds(aConfig->m_writeRunSeconds);
 
 		ProcessTimes::CPUTime startCPUTime;
 		ProcessTimes::Get(startCPUTime);
@@ -52,8 +54,12 @@ namespace jellybench::Write
 		ProcessTimes::CPUTime endCPUTime;
 		ProcessTimes::Get(endCPUTime);
 
-		printf("kernel: %llu\n", endCPUTime.m_kernel - startCPUTime.m_kernel);
-		printf("user:   %llu\n", endCPUTime.m_user - startCPUTime.m_user);
+		uint32_t totalPassed = (uint32_t)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - startTime).count();
+
+		printf("elapsed: %u\n", totalPassed);
+		printf("seq:	 %u\n", seq);
+		printf("kernel:	 %llu\n", endCPUTime.m_kernel - startCPUTime.m_kernel);
+		printf("user:	 %llu\n", endCPUTime.m_user - startCPUTime.m_user);
 	}
 
 }

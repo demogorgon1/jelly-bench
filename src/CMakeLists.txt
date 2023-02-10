@@ -9,6 +9,6 @@ target_compile_features(jelly-bench PRIVATE cxx_std_20)
 
 target_precompile_headers(jelly-bench PRIVATE "Pcheader.h")
 	
-target_link_libraries(jelly-bench jelly::jelly)
+target_link_libraries(jelly-bench jelly::jelly sqlite::sqlite)
 
 install(TARGETS jelly-bench RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

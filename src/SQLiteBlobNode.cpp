@@ -38,9 +38,11 @@ namespace jellybench
 
 			{
 				const char* sql = 
-					"INSERT INTO blobs(key, seq, data)"
-					"VALUES(?, ?, ?)"
-					"ON CONFLICT DO UPDATE SET data = ?;";
+					"INSERT INTO blobs(key, seq, data) "
+					"VALUES(?, ?, ?) "
+					"ON CONFLICT DO UPDATE SET "
+						"data = CASE WHEN EXCLUDED.seq > blobs.seq THEN EXCLUDED.data ELSE NULL END, "
+						"seq = EXCLUDED.seq;";
 
 				int flags = SQLITE_PREPARE_PERSISTENT;
 				int result = sqlite3_prepare_v3(m_sqlite, sql, -1, flags, &m_stmtSet, NULL);
@@ -107,9 +109,8 @@ namespace jellybench
 			JELLY_CHECK(result == SQLITE_OK, "sqlite3_bind_int64() failed: %d", result);
 		}
 
-		for(int i = 3; i <= 4; i++)
 		{
-			int result = sqlite3_bind_blob(m_internal->m_stmtSet, i, aBlob, (int)aBlobSize, SQLITE_STATIC);
+			int result = sqlite3_bind_blob(m_internal->m_stmtSet, 3, aBlob, (int)aBlobSize, SQLITE_STATIC);
 			JELLY_CHECK(result == SQLITE_OK, "sqlite3_bind_blob() failed: %d", result);
 		}
 

@@ -1,7 +1,7 @@
 #include "../Pcheader.h"
 
 #include "../Config.h"
-#include "../ProcessTimes.h"
+#include "../ProcessMonitor.h"
 #include "../RandomBlobCache.h"
 
 #include "IWriteBackend.h"
@@ -25,8 +25,8 @@ namespace jellybench::Write
 
 		std::chrono::time_point<std::chrono::steady_clock> endTime = startTime + std::chrono::seconds(aConfig->m_writeRunSeconds);
 
-		ProcessTimes::CPUTime startCPUTime;
-		ProcessTimes::Get(startCPUTime);
+		ProcessMonitor::Stats startStats;
+		ProcessMonitor::GetStats(startStats);
 
 		for(;;)
 		{
@@ -51,15 +51,25 @@ namespace jellybench::Write
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 
-		ProcessTimes::CPUTime endCPUTime;
-		ProcessTimes::Get(endCPUTime);
+		ProcessMonitor::Stats endStats;
+		ProcessMonitor::GetStats(endStats);
 
 		uint32_t totalPassed = (uint32_t)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - startTime).count();
+		uint32_t kernel = (uint32_t)(endStats.m_kernel - startStats.m_kernel);
+		uint32_t user = (uint32_t)(endStats.m_user - startStats.m_user);
+		uint32_t writeOps = (uint32_t)(endStats.m_writeOps - startStats.m_writeOps);
+		uint32_t writeBytes = (uint32_t)(endStats.m_writeBytes - startStats.m_writeBytes);
 
-		printf("elapsed: %u\n", totalPassed);
-		printf("seq:	 %u\n", seq);
-		printf("kernel:	 %llu\n", endCPUTime.m_kernel - startCPUTime.m_kernel);
-		printf("user:	 %llu\n", endCPUTime.m_user - startCPUTime.m_user);
+		printf("elapsed:     %u\n", totalPassed);
+		printf("seq:	     %u\n", seq);
+		printf("kernel:	     %u\n", kernel);
+		printf("user:	     %u\n", user);
+		printf("total:       %u\n", kernel + user);
+		printf("avgcpu:      %f\n", (100.0f * (float)(kernel + user)) / (float)totalPassed);
+		printf("wrops:       %u\n", writeOps);
+		printf("wrbytes:     %u\n", writeBytes);
+		printf("wrops/sec:   %f\n", (float)writeOps / ((float)totalPassed / 1000000.0f));
+		printf("wrbytes/sec: %f\n", (float)writeBytes / ((float)totalPassed / 1000000.0f));
 	}
 
 }

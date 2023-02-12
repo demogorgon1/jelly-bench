@@ -21,7 +21,7 @@ namespace jellybench::Write
 
 		double pending = 0.0;
 		std::chrono::time_point<std::chrono::steady_clock> prevTime = startTime;
-		uint32_t seq = 0;
+		uint32_t numWrites = 0;
 
 		std::chrono::time_point<std::chrono::steady_clock> endTime = startTime + std::chrono::seconds(aConfig->m_writeRunSeconds);
 
@@ -40,10 +40,14 @@ namespace jellybench::Write
 
 			while (pending > 0.0)
 			{
+				uint32_t seq = numWrites;
+
 				const RandomBlobCache::Blob& randomBlob = randomBlobCache.GetRandomBlob(random);
-				aBackend->Set((size_t)random() % aConfig->m_blobKeyCount, seq++, &randomBlob[0], randomBlob.size());
+				aBackend->Set((size_t)random() % aConfig->m_blobKeyCount, seq, &randomBlob[0], randomBlob.size());
 
 				pending -= 1.0;
+
+				numWrites++;
 			}
 
 			aBackend->Update();
@@ -61,7 +65,7 @@ namespace jellybench::Write
 		uint32_t writeBytes = (uint32_t)(endStats.m_writeBytes - startStats.m_writeBytes);
 
 		printf("elapsed:     %u\n", totalPassed);
-		printf("seq:	     %u\n", seq);
+		printf("num_writes:  %u\n", numWrites);
 		printf("kernel:	     %u\n", kernel);
 		printf("user:	     %u\n", user);
 		printf("total:       %u\n", kernel + user);

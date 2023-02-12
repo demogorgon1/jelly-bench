@@ -14,8 +14,20 @@ macro(jelly_bench_option OPTION_NAME OPTION_TEXT OPTION_DEFAULT)
     message(STATUS "${OPTION_NAME}: ${${OPTION_NAME}}")
 endmacro()
 
+jelly_bench_option(JELLY_BENCH_ROCKSDB "Enable RocksDB." OFF)
+
 include(FetchContent)
 include(GNUInstallDirs)
+
+set(CMAKE_MODULE_PATH
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
+  ${CMAKE_MODULE_PATH})
+
+# --------------------------------------------------------------------
+
+if (JELLY_BENCH_ROCKSDB)
+	find_package(RocksDB)
+endif()
 
 # --------------------------------------------------------------------
 

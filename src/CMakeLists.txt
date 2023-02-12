@@ -29,6 +29,8 @@ target_precompile_headers(jelly-bench PRIVATE "Pcheader.h")
 if(MSVC)
 	# needed by rocksdb
 	set(EXTRA_LIBRARIES rpcrt4 shlwapi)
+else()
+	set(EXTRA_LIBRARIES pthread dl)
 endif()
 	
 target_link_libraries(jelly-bench jelly::jelly sqlite::sqlite ${ROCKSDB_LIBRARY} ${EXTRA_LIBRARIES})

@@ -68,7 +68,7 @@ namespace jellybench::ProcessMonitor
 					/* 4 */ "read_bytes: %u\n"
 					/* 5 */ "write_bytes: %u\n"					
 					/* 6 */ "cancelled_write_bytes: %u\n",
-					values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
+					&values[0], &values[1], &values[2], &values[3], &values[4], &values[5], &values[6]);
 				JELLY_ASSERT(result == 7);
 				fclose(f);
 

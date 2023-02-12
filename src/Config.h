@@ -17,19 +17,19 @@ namespace jellybench
 				if(i + 1 < aNumArgs && aArgs[i + 1][0] != '-')
 					value = aArgs[i + 1];
 
-				if(arg == "min_blob_size" && value.has_value())
+				if(arg == "-min_blob_size" && value.has_value())
 					m_minBlobSize = (size_t)atoi(value.value().c_str());
-				else if (arg == "max_blob_size" && value.has_value())
+				else if (arg == "-max_blob_size" && value.has_value())
 					m_maxBlobSize = (size_t)atoi(value.value().c_str());
-				else if (arg == "random_blob_cache_size" && value.has_value())
+				else if (arg == "-random_blob_cache_size" && value.has_value())
 					m_randomBlobCacheSize = (size_t)atoi(value.value().c_str());
-				else if (arg == "blob_key_count" && value.has_value())
+				else if (arg == "-blob_key_count" && value.has_value())
 					m_blobKeyCount = (size_t)atoi(value.value().c_str());
-				else if (arg == "write_backend" && value.has_value())
+				else if (arg == "-write_backend" && value.has_value())
 					m_writeBackend = value.value();
-				else if (arg == "write_rate" && value.has_value())
+				else if (arg == "-write_rate" && value.has_value())
 					m_writeRate = (size_t)atoi(value.value().c_str());
-				else if (arg == "write_run_seconds" && value.has_value())
+				else if (arg == "-write_run_seconds" && value.has_value())
 					m_writeRunSeconds = (uint32_t)atoi(value.value().c_str());
 				else if(value.has_value())
 					m_jellyConfig.SetString(arg.c_str(), value.value().c_str());

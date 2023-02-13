@@ -21,7 +21,7 @@ namespace jellybench::Write::Jelly
 
 	JellyWrite::~JellyWrite()
 	{
-
+		m_blobNode.release();
 	}
 
 	//------------------------------------------------------------------------

@@ -9,6 +9,10 @@ In a distributed storage system, either of these could be used in place of jelly
 ## Single node write benchmark
 The goal of this benchmark is not find maximum writes per second attainable, but to measure resource consumtion at various steady workloads.
 
+```
+jelly-bench -write_test_run 120 -blob_key_count 20000 -compression_method none -rocksdb_compression none -write_backend <backend>
+```
+
 * Test runs for 2 minutes where it will write the specified number of blobs per second at a steady rate. 
 * Every write will be to one of 20000 unique keys, picked randomly. 
 * Each blob is 5-15 KB and contains bunch of random data.

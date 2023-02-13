@@ -30,6 +30,8 @@ namespace jellybench
 					m_randomBlobCacheSize = (size_t)atoi(value.value().c_str());
 				else if (arg == "blob_key_count" && value.has_value())
 					m_blobKeyCount = (size_t)atoi(value.value().c_str());
+				else if (arg == "rocksdb_compression" && value.has_value())
+					m_rocksDBCompression = value.value();
 				else if (arg == "write_backend" && value.has_value())
 					m_writeBackend = value.value();
 				else if (arg == "write_rate" && value.has_value())
@@ -48,6 +50,7 @@ namespace jellybench
 		size_t							m_randomBlobCacheSize = 1000;
 		size_t							m_blobKeyCount = 10000;
 		jelly::DefaultConfigSource		m_jellyConfig;
+		std::string						m_rocksDBCompression = "none";
 
 		// Write
 		std::string						m_writeBackend = "jelly";

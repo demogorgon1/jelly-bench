@@ -4,10 +4,28 @@
 
 #include <rocksdb/db.h>
 
+#include "Config.h"
 #include "RocksDBBlobNode.h"
 
 namespace jellybench
 {
+
+	rocksdb::CompressionType
+	_StringToCompressionType(
+		const std::string&		aString)
+	{
+		if(aString == "none")
+			return rocksdb::kNoCompression;
+		else if (aString == "zstd")
+			return rocksdb::kZSTD;
+		else if (aString == "lz4")
+			return rocksdb::kLZ4Compression;
+		else if (aString == "snappy")
+			return rocksdb::kSnappyCompression;
+
+		JELLY_FATAL_ERROR("Invalid rocksdb compression: %s", aString);
+		return rocksdb::CompressionType(0);
+	}
 
 	struct RocksDBBlobNode::Internal
 	{
@@ -25,6 +43,7 @@ namespace jellybench
 					rocksdb::Options options;
 					options.create_if_missing = true;
 					options.error_if_exists = true;
+					options.compression = _StringToCompressionType(aConfig->m_rocksDBCompression);
 
 					rocksdb::Status status = rocksdb::DB::Open(options, "rocksdb", &tempDB);
 					JELLY_CHECK(status.ok(), "rocksdb::DB::Open() failed: %s", status.getState());
@@ -66,6 +85,7 @@ namespace jellybench
 			// Open database
 			rocksdb::Options options;
 			options.create_if_missing = false;
+			options.compression = _StringToCompressionType(aConfig->m_rocksDBCompression);
 
 			rocksdb::Status status = rocksdb::DB::Open(options, "rocksdb", m_columnFamilyDescriptors, &m_columnFamilyHandles, &m_db);
 			JELLY_CHECK(status.ok(), "rocksdb::DB::Open() failed: %s", status.getState());

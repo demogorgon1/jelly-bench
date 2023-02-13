@@ -91,7 +91,12 @@ namespace jellybench::Write::Jelly
 	size_t
 	JellyWrite::GetDiskSpaceUsed()
 	{
+		m_host->PollSystemStats();
+
 		jelly::IStats* stats = m_host->GetStats();
+		
+		stats->Update();
+
 		return stats->GetGauge(jelly::Stat::ID_TOTAL_HOST_STORE_SIZE).m_value + stats->GetGauge(jelly::Stat::ID_TOTAL_HOST_WAL_SIZE).m_value;
 	}
 

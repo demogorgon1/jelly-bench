@@ -69,7 +69,7 @@ namespace jellybench::Write
 			{
 				size_t diskUsage = aBackend->GetDiskSpaceUsed();
 				maxDiskUsage = std::max<size_t>(maxDiskUsage, diskUsage);
-				printf("%.0f\n", (float)maxDiskUsage / (1024.0f * 1024.0f));
+				printf("%.0f\n", (float)diskUsage / (1024.0f * 1024.0f));
 			}
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -82,7 +82,7 @@ namespace jellybench::Write
 		uint32_t kernel = (uint32_t)(endStats.m_kernel - startStats.m_kernel);
 		uint32_t user = (uint32_t)(endStats.m_user - startStats.m_user);
 		uint32_t writeOps = (uint32_t)(endStats.m_writeOps - startStats.m_writeOps);
-		uint32_t writeBytes = (uint32_t)(endStats.m_writeBytes - startStats.m_writeBytes);
+		uint64_t writeBytes = (uint64_t)(endStats.m_writeBytes - startStats.m_writeBytes);
 
 		printf("elapsed:     %u\n", totalPassed);
 		printf("num_writes:  %u\n", numWrites);
@@ -91,7 +91,7 @@ namespace jellybench::Write
 		printf("total:       %u\n", kernel + user);
 		printf("avgcpu:      %f\n", (100.0f * (float)(kernel + user)) / (float)totalPassed);
 		printf("wrops:       %u\n", writeOps);
-		printf("wrbytes:     %u\n", writeBytes);
+		printf("wrbytes:     %.0f\n", (float)writeBytes);
 		printf("wrops/sec:   %f\n", (float)writeOps / ((float)totalPassed / 1000000.0f));
 		printf("wrbytes/sec: %f\n", (float)writeBytes / ((float)totalPassed / 1000000.0f));
 		printf("max_mem:     %u\n", (uint32_t)(maxMemoryUsage - startMemory));

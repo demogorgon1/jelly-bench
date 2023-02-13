@@ -10,8 +10,8 @@ In a distributed storage system, either of these could be used in place of jelly
 The goal of this benchmark is not find maximum writes per second attainable, but to measure resource consumtion at various steady workloads.
 
 Unique keys|20000
--*-
+-|-
 Blob sizes|5-15 KB
--*-
+-|-
 Duration|2 minutes
 

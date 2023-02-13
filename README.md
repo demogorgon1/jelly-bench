@@ -9,9 +9,12 @@ In a distributed storage system, either of these could be used in place of jelly
 ## Single node write benchmark
 The goal of this benchmark is not find maximum writes per second attainable, but to measure resource consumtion at various steady workloads.
 
-Unique keys|20000
--|-
-Blob sizes|5-15 KB
--|-
-Duration|2 minutes
+* Test runs for 2 minutes where it will write the specified number of blobs per second at a steady rate. 
+* Every write will be to one of 20000 unique keys, picked randomly. 
+* Each blob is 5-15 KB and contains bunch of random data.
+* Compression is disabled.
+
+
+
+
 

@@ -97,7 +97,7 @@ namespace jellybench::Write
 		printf("max_mem:     %u\n", (uint32_t)(maxMemoryUsage - startMemory));
 		printf("max_disk:    %u\n", (uint32_t)maxDiskUsage);
 
-		printf("%.0f;%.0f;%.2f;%.0f;%.0f", 
+		printf("%.2f;%.0f;%.2f;%.0f;%.0f", 
 			(100.0f * (float)(kernel + user)) / (float)totalPassed,
 			(float)writeOps / ((float)totalPassed / 1000000.0f),
 			((float)writeBytes / ((float)totalPassed / 1000000.0f)) / (1024.0f * 1024.0f),

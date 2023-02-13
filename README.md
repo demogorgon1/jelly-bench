@@ -13,8 +13,10 @@ The goal of this benchmark is not find maximum writes per second attainable, but
 * Every write will be to one of 20000 unique keys, picked randomly. 
 * Each blob is 5-15 KB and contains bunch of random data.
 * Compression is disabled.
+* All storage engines configured to flushing their WALs every 500 ms.
+* Only a single writing thread used.
 
-
+All tests below have been run in a ubuntu VM on my laptop, using an SSD. Obviously this isn't ideal and it would interesting to run them in a more realistic environment.
 
 
 

@@ -59,16 +59,16 @@ namespace jellybench::ProcessMonitor
 				FILE* f = fopen(path, "r");
 				JELLY_ASSERT(f != NULL);
 
-				uint32_t values[7];
+				long long values[7];
 
 				int result = fscanf(f, 
-					/* 0 */ "rchar: %u\n"
-					/* 1 */ "wchar: %u\n"
-					/* 2 */ "syscr: %u\n"
-					/* 3 */ "syscw: %u\n"
-					/* 4 */ "read_bytes: %u\n"
-					/* 5 */ "write_bytes: %u\n"					
-					/* 6 */ "cancelled_write_bytes: %u\n",
+					/* 0 */ "rchar: %lld\n"
+					/* 1 */ "wchar: %lld\n"
+					/* 2 */ "syscr: %lld\n"
+					/* 3 */ "syscw: %lld\n"
+					/* 4 */ "read_bytes: %lld\n"
+					/* 5 */ "write_bytes: %lld\n"					
+					/* 6 */ "cancelled_write_bytes: %lld\n",
 					&values[0], &values[1], &values[2], &values[3], &values[4], &values[5], &values[6]);
 				JELLY_ASSERT(result == 7);
 				fclose(f);

@@ -30,6 +30,7 @@ namespace jellybench::Write
 							uint32_t			aSeq,
 							const void*			aBlob,
 							size_t				aBlobSize) = 0;
+		virtual size_t	GetDiskSpaceUsed() = 0;
 
 	protected:
 		

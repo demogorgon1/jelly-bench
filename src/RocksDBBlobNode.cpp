@@ -172,6 +172,20 @@ namespace jellybench
 		m_internal->m_db->FlushWAL(true);
 	} 
 
+	size_t	
+	RocksDBBlobNode::GetDiskSpaceUsed()
+	{
+		size_t bytes = 0;
+
+		for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator("rocksdb"))
+		{
+			if (entry.is_regular_file())
+				bytes += (size_t)entry.file_size();
+		}
+
+		return bytes;
+	}
+
 }
 
 #endif

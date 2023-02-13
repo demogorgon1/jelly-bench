@@ -22,6 +22,7 @@ namespace jellybench::Write::SQLite
 					uint32_t			aSeq,
 					const void*			aBlob,
 					size_t				aBlobSize) override;
+		size_t	GetDiskSpaceUsed() override;
 
 	private:
 

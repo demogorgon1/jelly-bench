@@ -13,5 +13,6 @@ namespace jellybench::ProcessMonitor
 
 	void	GetStats(
 				Stats&		aOut);
+	size_t	GetCurrentMemoryUsage();
 
 }

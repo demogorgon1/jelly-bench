@@ -138,4 +138,23 @@ namespace jellybench
 		}
 	}
 
+	size_t
+	SQLiteBlobNode::GetDiskSpaceUsed()
+	{
+		size_t bytes = 0;
+
+		for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator("."))
+		{
+			if (entry.is_regular_file())
+			{
+				std::string path = entry.path().string();
+
+				if(strncmp(path.c_str(), "sqlite", 6) == 0)
+					bytes += (size_t)entry.file_size();
+			}
+		}
+
+		return bytes;
+	}
+
 }

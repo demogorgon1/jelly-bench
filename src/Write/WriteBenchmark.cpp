@@ -14,6 +14,8 @@ namespace jellybench::Write
 		const Config*	aConfig,
 		IWriteBackend*	aBackend)
 	{
+		size_t startMemory = ProcessMonitor::GetCurrentMemoryUsage();
+
 		std::mt19937 random;
 		RandomBlobCache randomBlobCache(aConfig, random);
 
@@ -27,6 +29,12 @@ namespace jellybench::Write
 
 		ProcessMonitor::Stats startStats;
 		ProcessMonitor::GetStats(startStats);
+
+		jelly::Timer statsTimer(100);
+		size_t maxMemoryUsage = 0;				
+		size_t maxDiskUsage = 0;
+
+		jelly::Timer diskUsageTimer(1000);
 
 		for(;;)
 		{
@@ -52,6 +60,18 @@ namespace jellybench::Write
 
 			aBackend->Update();
 
+			if(statsTimer.HasExpired())
+			{
+				maxMemoryUsage = std::max<size_t>(maxMemoryUsage, ProcessMonitor::GetCurrentMemoryUsage());
+			}			
+
+			if(diskUsageTimer.HasExpired())
+			{
+				size_t diskUsage = aBackend->GetDiskSpaceUsed();
+				maxDiskUsage = std::max<size_t>(maxDiskUsage, diskUsage);
+				printf("%.0f\n", (float)maxDiskUsage / (1024.0f * 1024.0f));
+			}
+
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		}
 
@@ -74,6 +94,15 @@ namespace jellybench::Write
 		printf("wrbytes:     %u\n", writeBytes);
 		printf("wrops/sec:   %f\n", (float)writeOps / ((float)totalPassed / 1000000.0f));
 		printf("wrbytes/sec: %f\n", (float)writeBytes / ((float)totalPassed / 1000000.0f));
+		printf("max_mem:     %u\n", (uint32_t)(maxMemoryUsage - startMemory));
+		printf("max_disk:    %u\n", (uint32_t)maxDiskUsage);
+
+		printf("%.0f;%.0f;%.2f;%.0f;%.0f", 
+			(100.0f * (float)(kernel + user)) / (float)totalPassed,
+			(float)writeOps / ((float)totalPassed / 1000000.0f),
+			((float)writeBytes / ((float)totalPassed / 1000000.0f)) / (1024.0f * 1024.0f),
+			(float)(maxMemoryUsage - startMemory) / (1024.0f * 1024.0f),
+			(float)maxDiskUsage / (1024.0f * 1024.0f));
 	}
 
 }

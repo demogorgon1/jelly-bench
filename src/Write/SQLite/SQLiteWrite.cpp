@@ -39,6 +39,12 @@ namespace jellybench::Write::SQLite
 		m_blobNode.Set(aKey, aSeq, aBlob, aBlobSize);
 	}
 
+	size_t	
+	SQLiteWrite::GetDiskSpaceUsed() 
+	{
+		return m_blobNode.GetDiskSpaceUsed();
+	}
+
 	//------------------------------------------------------------------------
 
 }

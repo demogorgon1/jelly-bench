@@ -20,6 +20,7 @@ namespace jellybench
 					const void*				aBlob,
 					size_t					aBlobSize);
 		void	Flush();
+		size_t	GetDiskSpaceUsed();
 
 	private:
 

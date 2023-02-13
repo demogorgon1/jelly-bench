@@ -41,6 +41,12 @@ namespace jellybench::Write::RocksDB
 		m_blobNode.Set(aKey, aSeq, aBlob, aBlobSize);
 	}
 
+	size_t
+	RocksDBWrite::GetDiskSpaceUsed()
+	{
+		return m_blobNode.GetDiskSpaceUsed();
+	}
+
 	//------------------------------------------------------------------------
 
 }

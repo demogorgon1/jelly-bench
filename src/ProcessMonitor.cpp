@@ -2,6 +2,7 @@
 
 #if defined(_WIN32)
 	#include <windows.h>
+	#include <psapi.h>	
 #else
 	#include <sys/times.h> 
 	#include <unistd.h>
@@ -75,6 +76,35 @@ namespace jellybench::ProcessMonitor
 				aOut.m_writeOps = (size_t)values[3];
 				aOut.m_writeBytes = (size_t)values[1];
 			}
+		#endif
+	}
+
+	size_t
+	GetCurrentMemoryUsage()
+	{
+		#if defined(_WIN32)			
+			HANDLE h = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+			JELLY_CHECK(h != INVALID_HANDLE_VALUE, "OpenProcess() failed: %u", GetLastError());
+
+			PROCESS_MEMORY_COUNTERS_EX t;
+			BOOL result = GetProcessMemoryInfo(h, (PPROCESS_MEMORY_COUNTERS)&t, (DWORD)sizeof(t));
+			JELLY_CHECK(result != 0, "GetProcessMemoryInfo() failed: %u", GetLastError());
+
+			CloseHandle(h);
+
+			return (size_t)t.PrivateUsage;
+		#else
+			const char* path = "/proc/self/statm";
+			FILE* fp = fopen(path, "r");
+			JELLY_CHECK(fp != NULL, "fopen() failed: %u (path: %s)", errno, path);
+
+			uint32_t rss;
+			int result = fscanf(fp, "%*s%u", &rss);
+			JELLY_CHECK(result == 1, "fscanf() failed: %u (path: %s)", errno, path);
+
+			fclose(fp);
+
+			return (size_t)rss * (size_t)sysconf(_SC_PAGESIZE);
 		#endif
 	}
 

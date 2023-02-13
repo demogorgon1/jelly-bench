@@ -88,6 +88,13 @@ namespace jellybench::Write::Jelly
 		m_requests.push_back(std::move(req));
 	}
 
+	size_t
+	JellyWrite::GetDiskSpaceUsed()
+	{
+		jelly::IStats* stats = m_host->GetStats();
+		return stats->GetGauge(jelly::Stat::ID_TOTAL_HOST_STORE_SIZE).m_value + stats->GetGauge(jelly::Stat::ID_TOTAL_HOST_WAL_SIZE).m_value;
+	}
+
 	//------------------------------------------------------------------------
 
 	void	

@@ -147,9 +147,9 @@ namespace jellybench
 		{
 			if (entry.is_regular_file())
 			{
-				std::string path = entry.path().string();
+				std::string fileName = entry.path().filename().string();
 
-				if(strncmp(path.c_str(), "sqlite", 6) == 0)
+				if(strncmp(fileName.c_str(), "sqlite", 6) == 0)
 					bytes += (size_t)entry.file_size();
 			}
 		}

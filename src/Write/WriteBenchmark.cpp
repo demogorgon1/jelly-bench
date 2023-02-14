@@ -14,10 +14,10 @@ namespace jellybench::Write
 		const Config*	aConfig,
 		IWriteBackend*	aBackend)
 	{
-		size_t startMemory = ProcessMonitor::GetCurrentMemoryUsage();
-
 		std::mt19937 random;
 		RandomBlobCache randomBlobCache(aConfig, random);
+
+		size_t startMemory = ProcessMonitor::GetCurrentMemoryUsage();
 
 		std::chrono::time_point<std::chrono::steady_clock> startTime = std::chrono::steady_clock::now();
 

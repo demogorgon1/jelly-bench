@@ -13,7 +13,7 @@ namespace jellybench::Write::SQLite
 	public:
 				SQLiteWrite(
 					const Config*		aConfig);
-				~SQLiteWrite();
+		virtual	~SQLiteWrite();
 
 		// IWriteBackend implementation
 		void	Update() override;

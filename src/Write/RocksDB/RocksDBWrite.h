@@ -15,7 +15,7 @@ namespace jellybench::Write::RocksDB
 	public:
 				RocksDBWrite(
 					const Config*		aConfig);
-				~RocksDBWrite();
+		virtual ~RocksDBWrite();
 
 		// IWriteBackend implementation
 		void	Update() override;

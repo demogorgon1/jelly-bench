@@ -11,7 +11,7 @@ namespace jellybench::Write::Jelly
 	public:
 				JellyWrite(
 					const Config*		aConfig);
-				~JellyWrite();
+		virtual	~JellyWrite();
 
 		// IWriteBackend implementation
 		void	Update() override;

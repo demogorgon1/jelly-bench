@@ -24,8 +24,7 @@ namespace jellybench::Write::Jelly
 
 	private:
 
-		typedef jelly::Blob<1> BlobType;
-		typedef jelly::BlobNode<jelly::UIntKey<uint32_t>, BlobType> BlobNodeType;
+		typedef jelly::BlobNode<jelly::UIntKey<uint32_t>> BlobNodeType;
 		typedef jelly::HousekeepingAdvisor<BlobNodeType> HouseKeepingAdvisorType;
 
 		std::unique_ptr<jelly::DefaultHost>					m_host;

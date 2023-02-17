@@ -73,15 +73,15 @@ namespace jellybench::Write::Jelly
 		const void*			aBlob,
 		size_t				aBlobSize) 
 	{
-		BlobType blob;
-		blob.GetBuffer().SetSize(aBlobSize);
-		memcpy(blob.GetBuffer().GetPointer(), aBlob, aBlobSize);
+		std::unique_ptr<jelly::Blob> blob = std::make_unique<jelly::Blob>();
+		blob->SetSize(aBlobSize);
+		memcpy(blob->GetPointer(), aBlob, aBlobSize);
 
 		std::unique_ptr<BlobNodeType::Request> req = std::make_unique<BlobNodeType::Request>();
 
 		req->SetKey(aKey);
 		req->SetSeq(aSeq);
-		req->SetBlob(blob);
+		req->SetBlob(blob.release());
 
 		m_blobNode->Set(req.get());
 

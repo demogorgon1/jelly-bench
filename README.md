@@ -58,10 +58,10 @@ The test system wasn't able to handle more than 10000 blobs per second at a stea
 Blob writes/second|Jelly|SQLite|RocksDB
 -|-|-|-
 10|1.68%|1.66%|1.68%
-100|1.96%|2.4%|2.89%
-1000|6.27%|9.39%|11.67%
-5000|25.88%|29.11%|44.14%
-10000|40.84%|44.44%|62.73%
+100|1.87%|2.4%|2.89%
+1000|4.92%|9.39%|11.67%
+5000|21.00%|29.11%|44.14%
+10000|35.02%|44.44%|62.73%
 
 ### Avg. system write calls/second
 Blob writes/second|Jelly|SQLite|RocksDB
@@ -69,8 +69,8 @@ Blob writes/second|Jelly|SQLite|RocksDB
 10|3|67|24
 100|3|676|232
 1000|44|11078|2320
-5000|212|54773|11601
-10000|363|101166|19785
+5000|214|54773|11601
+10000|362|101166|19785
 
 Jelly is very aggressive about making very large write batches so number of system write calls will be very low. In general it's a function of number of bytes written and blob write rate has no direct effect on this. 
 
@@ -79,8 +79,8 @@ Blob writes/second|Jelly|SQLite|RocksDB
 -|-|-|-
 10|0.09 MB/s|0.17 MB/s|0.1 MB/s
 100|0.94 MB/s|1.7 MB/s|1.39 MB/s
-1000|21.05 MB/s|22.7 MB/s|23.25 MB/s
-5000|104.72 MB/s|110.33 MB/s|122.64 MB/s
-10000|179.34 MB/s|208.43 MB/s|177.53 MB/s
+1000|21.01 MB/s|22.7 MB/s|23.25 MB/s
+5000|105.81 MB/s|110.33 MB/s|122.64 MB/s
+10000|180.18 MB/s|208.43 MB/s|177.53 MB/s
 
 Note that for SQLite this is mostly linear, while for Jelly and RocksDB it's not due to store/sstable flushes and compactions. It's hard to predict exactly when these happens, so numbers look more random and are largely a matter of tuning.

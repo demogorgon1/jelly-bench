@@ -86,6 +86,8 @@ namespace jellybench::Write::Jelly
 		m_blobNode->Set(req.get());
 
 		m_requests.push_back(std::move(req));
+
+		this->m_logicalWriteBytes += aBlobSize;
 	}
 
 	size_t

@@ -39,6 +39,8 @@ namespace jellybench::Write::RocksDB
 		size_t				aBlobSize) 
 	{
 		m_blobNode.Set(aKey, aSeq, aBlob, aBlobSize);
+
+		this->m_logicalWriteBytes += aBlobSize;
 	}
 
 	size_t

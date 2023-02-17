@@ -14,6 +14,7 @@ namespace jellybench::Write
 		IWriteBackend(
 			const Config*						aConfig)
 			: m_config(aConfig)
+			, m_logicalWriteBytes(0)
 		{
 
 		}
@@ -32,9 +33,13 @@ namespace jellybench::Write
 							size_t				aBlobSize) = 0;
 		virtual size_t	GetDiskSpaceUsed() = 0;
 
+		// Data access
+		size_t			GetLogicalWriteBytes() const { return m_logicalWriteBytes; }
+
 	protected:
 		
 		const Config*		m_config;
+		size_t				m_logicalWriteBytes;
 	};
 
 }

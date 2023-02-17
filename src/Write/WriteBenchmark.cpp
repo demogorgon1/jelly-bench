@@ -92,17 +92,20 @@ namespace jellybench::Write
 		printf("avgcpu:      %f\n", (100.0f * (float)(kernel + user)) / (float)totalPassed);
 		printf("wrops:       %u\n", writeOps);
 		printf("wrbytes:     %.0f\n", (float)writeBytes);
+		printf("lwrbytes:    %.0f\n", (float)aBackend->GetLogicalWriteBytes());
 		printf("wrops/sec:   %f\n", (float)writeOps / ((float)totalPassed / 1000000.0f));
 		printf("wrbytes/sec: %f\n", (float)writeBytes / ((float)totalPassed / 1000000.0f));
+		printf("lwrbytes/sec:%f\n", (float)aBackend->GetLogicalWriteBytes() / ((float)totalPassed / 1000000.0f));
 		printf("max_mem:     %u\n", (uint32_t)(maxMemoryUsage - startMemory));
 		printf("max_disk:    %u\n", (uint32_t)maxDiskUsage);
 
-		printf("%.2f;%.0f;%.2f;%.0f;%.0f", 
+		printf("%.2f;%.0f;%.2f;%.0f;%.0f;%.2f", 
 			(100.0f * (float)(kernel + user)) / (float)totalPassed,
 			(float)writeOps / ((float)totalPassed / 1000000.0f),
 			((float)writeBytes / ((float)totalPassed / 1000000.0f)) / (1024.0f * 1024.0f),
 			(float)(maxMemoryUsage - startMemory) / (1024.0f * 1024.0f),
-			(float)maxDiskUsage / (1024.0f * 1024.0f));
+			(float)maxDiskUsage / (1024.0f * 1024.0f),
+			(float)aBackend->GetLogicalWriteBytes() / (float)writeBytes);
 	}
 
 }

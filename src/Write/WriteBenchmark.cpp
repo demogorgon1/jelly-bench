@@ -69,7 +69,9 @@ namespace jellybench::Write
 			{
 				size_t diskUsage = aBackend->GetDiskSpaceUsed();
 				maxDiskUsage = std::max<size_t>(maxDiskUsage, diskUsage);
-				printf("%.0f\n", (float)diskUsage / (1024.0f * 1024.0f));
+
+				uint32_t secs = (uint32_t)std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - startTime).count();
+				printf("%u;%.0f\n", secs, (float)diskUsage / (1024.0f * 1024.0f));
 			}
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));

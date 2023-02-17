@@ -73,3 +73,15 @@ Blob writes/second|Jelly|SQLite|RocksDB
 10000|362|101166|19785
 
 Jelly is very aggressive about making very large write batches so number of system write calls will be very low. In general it's a function of number of bytes written and blob write rate has no direct effect on this. 
+
+### Avg. disk throughput
+Blob writes/second|Logical throughput|Jelly|SQLite|RocksDB
+-|-|-|-
+10|0.1 MB/s|0.1 MB/s|0.17 MB/s|0.1 MB/s
+100|0.95 MB/s|0.95 MB/s|1.7 MB/s|1.39 MB/s
+1000|9.54 MB/s|21.01 MB/s|22.7 MB/s|23.25 MB/s
+5000|47.69 MB/s|105.81 MB/s|110.33 MB/s|122.64 MB/s
+10000|95.36 MB/s|180.18 MB/s|208.43 MB/s|177.53 MB/s
+
+Note that for SQLite this is mostly linear, while for Jelly and RocksDB it's not due to store/sstable flushes and compactions. It's hard to predict exactly when these happens, so numbers look more random and are largely a matter of tuning.
+The _logical throughput_ column denotes the size of the blobs written.

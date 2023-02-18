@@ -1,4 +1,6 @@
 # jelly-bench
+[![Build](https://github.com/demogorgon1/jelly-bench/actions/workflows/cmake.yml/badge.svg)](https://github.com/demogorgon1/jelly-bench/actions/workflows/cmake.yml)
+
 Comparing [jelly](https://github.com/demogorgon1/jelly) performance with other databases. As for now this is limited to two other embeddable databases: 
 
 * RocksDB, which as a LSM storage engine is conceptually fairly similar to jelly, except it's much more involved and does a lot of different things. 

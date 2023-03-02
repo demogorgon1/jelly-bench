@@ -19,7 +19,7 @@ namespace jellybench
 			{
 				int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 				int result = sqlite3_open_v2("sqlite.db", &m_sqlite, flags, NULL);
-				JELLY_CHECK(result == SQLITE_OK, "sqlite3_open_v2() failed: %s", sqlite3_errmsg(m_sqlite));
+				JELLY_ALWAYS_ASSERT(result == SQLITE_OK, "sqlite3_open_v2() failed: %s", sqlite3_errmsg(m_sqlite));
 				JELLY_ASSERT(m_sqlite != NULL);
 			}
 
@@ -33,7 +33,7 @@ namespace jellybench
 
 				char* errMsg;
 				int result = sqlite3_exec(m_sqlite, sql, NULL, NULL, &errMsg);
-				JELLY_CHECK(result == SQLITE_OK, "sqlite3_exec() failed: %s", errMsg);
+				JELLY_ALWAYS_ASSERT(result == SQLITE_OK, "sqlite3_exec() failed: %s", errMsg);
 			}
 
 			{
@@ -46,7 +46,7 @@ namespace jellybench
 
 				int flags = SQLITE_PREPARE_PERSISTENT;
 				int result = sqlite3_prepare_v3(m_sqlite, sql, -1, flags, &m_stmtSet, NULL);
-				JELLY_CHECK(result == SQLITE_OK, "sqlite3_prepare() failed: %s", sqlite3_errmsg(m_sqlite));
+				JELLY_ALWAYS_ASSERT(result == SQLITE_OK, "sqlite3_prepare() failed: %s", sqlite3_errmsg(m_sqlite));
 				JELLY_ASSERT(m_stmtSet != NULL);
 			}
 
@@ -94,34 +94,34 @@ namespace jellybench
 		{
 			char* errMsg;
 			int result = sqlite3_exec(m_internal->m_sqlite, "BEGIN", NULL, NULL, &errMsg);
-			JELLY_CHECK(result == SQLITE_OK, "sqlite3_exec() failed: %s", errMsg);
+			JELLY_ALWAYS_ASSERT(result == SQLITE_OK, "sqlite3_exec() failed: %s", errMsg);
 
 			m_internal->m_batching = true;
 		}
 
 		{
 			int result = sqlite3_bind_int64(m_internal->m_stmtSet, 1, (sqlite3_int64)aKey);
-			JELLY_CHECK(result == SQLITE_OK, "sqlite3_bind_int64() failed: %d", result);
+			JELLY_ALWAYS_ASSERT(result == SQLITE_OK, "sqlite3_bind_int64() failed: %d", result);
 		}
 
 		{
 			int result = sqlite3_bind_int64(m_internal->m_stmtSet, 2, (sqlite3_int64)aSeq);
-			JELLY_CHECK(result == SQLITE_OK, "sqlite3_bind_int64() failed: %d", result);
+			JELLY_ALWAYS_ASSERT(result == SQLITE_OK, "sqlite3_bind_int64() failed: %d", result);
 		}
 
 		{
 			int result = sqlite3_bind_blob(m_internal->m_stmtSet, 3, aBlob, (int)aBlobSize, SQLITE_STATIC);
-			JELLY_CHECK(result == SQLITE_OK, "sqlite3_bind_blob() failed: %d", result);
+			JELLY_ALWAYS_ASSERT(result == SQLITE_OK, "sqlite3_bind_blob() failed: %d", result);
 		}
 
 		{
 			int result = sqlite3_step(m_internal->m_stmtSet);
-			JELLY_CHECK(result == SQLITE_DONE, "sqlite3_step() failed: %d", result);
+			JELLY_ALWAYS_ASSERT(result == SQLITE_DONE, "sqlite3_step() failed: %d", result);
 		}
 
 		{
 			int result = sqlite3_reset(m_internal->m_stmtSet);
-			JELLY_CHECK(result == SQLITE_OK, "sqlite3_reset() failed: %d", result);
+			JELLY_ALWAYS_ASSERT(result == SQLITE_OK, "sqlite3_reset() failed: %d", result);
 		}
 	}
 
@@ -132,7 +132,7 @@ namespace jellybench
 		{
 			char* errMsg;
 			int result = sqlite3_exec(m_internal->m_sqlite, "COMMIT", NULL, NULL, &errMsg);
-			JELLY_CHECK(result == SQLITE_OK, "sqlite3_exec() failed: %s", errMsg);
+			JELLY_ALWAYS_ASSERT(result == SQLITE_OK, "sqlite3_exec() failed: %s", errMsg);
 
 			m_internal->m_batching = false;
 		}

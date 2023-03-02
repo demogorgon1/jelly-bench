@@ -12,7 +12,7 @@ namespace jellybench
 		{
 			for (int i = 1; i < aNumArgs; i++)
 			{
-				JELLY_CHECK(aArgs[i][0] == '-', "Syntax error.");
+				JELLY_ALWAYS_ASSERT(aArgs[i][0] == '-', "Syntax error.");
 
 				std::string arg = aArgs[i] + 1;
 				std::optional<std::string> value;
@@ -41,7 +41,7 @@ namespace jellybench
 				else if(value.has_value())
 					m_jellyConfig.SetString(arg.c_str(), value.value().c_str());
 				else
-					JELLY_FATAL_ERROR("Syntax error.");
+					JELLY_ALWAYS_ASSERT(false, "Syntax error.");
 			}
 		}
 			

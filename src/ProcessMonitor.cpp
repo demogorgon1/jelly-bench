@@ -84,11 +84,11 @@ namespace jellybench::ProcessMonitor
 	{
 		#if defined(_WIN32)			
 			HANDLE h = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
-			JELLY_CHECK(h != INVALID_HANDLE_VALUE, "OpenProcess() failed: %u", GetLastError());
+			JELLY_ALWAYS_ASSERT(h != INVALID_HANDLE_VALUE, "OpenProcess() failed: %u", GetLastError());
 
 			PROCESS_MEMORY_COUNTERS_EX t;
 			BOOL result = GetProcessMemoryInfo(h, (PPROCESS_MEMORY_COUNTERS)&t, (DWORD)sizeof(t));
-			JELLY_CHECK(result != 0, "GetProcessMemoryInfo() failed: %u", GetLastError());
+			JELLY_ALWAYS_ASSERT(result != 0, "GetProcessMemoryInfo() failed: %u", GetLastError());
 
 			CloseHandle(h);
 
@@ -96,11 +96,11 @@ namespace jellybench::ProcessMonitor
 		#else
 			const char* path = "/proc/self/statm";
 			FILE* fp = fopen(path, "r");
-			JELLY_CHECK(fp != NULL, "fopen() failed: %u (path: %s)", errno, path);
+			JELLY_ALWAYS_ASSERT(fp != NULL, "fopen() failed: %u (path: %s)", errno, path);
 
 			uint32_t rss;
 			int result = fscanf(fp, "%*s%u", &rss);
-			JELLY_CHECK(result == 1, "fscanf() failed: %u (path: %s)", errno, path);
+			JELLY_ALWAYS_ASSERT(result == 1, "fscanf() failed: %u (path: %s)", errno, path);
 
 			fclose(fp);
 

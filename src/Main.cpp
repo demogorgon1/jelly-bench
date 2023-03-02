@@ -23,7 +23,7 @@ namespace jellybench
 			return new Write::RocksDB::RocksDBWrite(aConfig);
 #endif
 		else
-			JELLY_FATAL_ERROR("Invalid write backend: %s", aConfig->m_writeBackend.c_str());
+			JELLY_ALWAYS_ASSERT(false, "Invalid write backend: %s", aConfig->m_writeBackend.c_str());
 		return NULL;
 	}
 
@@ -37,9 +37,17 @@ main(
 	jellybench::Config config;
 	config.InitFromCommandLine(aNumArgs, aArgs);
 
+	config.m_writeBackend = "jelly";
+	config.m_rocksDBCompression = "none";
+	config.m_jellyConfig.SetString("compression_method", "none");
+	config.m_jellyConfig.SetString("max_resident_blob_size", "0");
+	config.m_writeRate = 10000;
+
 	std::unique_ptr<jellybench::Write::IWriteBackend> writeBackend(jellybench::_CreateWriteBackend(&config));
 
 	jellybench::Write::WriteBenchmark(&config, writeBackend.get());
+
+	system("pause");
 
 	return EXIT_SUCCESS;
 }

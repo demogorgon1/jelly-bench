@@ -23,7 +23,7 @@ namespace jellybench
 		else if (aString == "snappy")
 			return rocksdb::kSnappyCompression;
 
-		JELLY_FATAL_ERROR("Invalid rocksdb compression: %s", aString);
+		JELLY_ALWAYS_ASSERT(false, "Invalid rocksdb compression: %s", aString);
 		return rocksdb::CompressionType(0);
 	}
 
@@ -46,7 +46,7 @@ namespace jellybench
 					options.compression = _StringToCompressionType(aConfig->m_rocksDBCompression);
 
 					rocksdb::Status status = rocksdb::DB::Open(options, "rocksdb", &tempDB);
-					JELLY_CHECK(status.ok(), "rocksdb::DB::Open() failed: %s", status.getState());
+					JELLY_ALWAYS_ASSERT(status.ok(), "rocksdb::DB::Open() failed: %s", status.getState());
 					JELLY_ASSERT(tempDB != NULL);
 				}
 
@@ -54,13 +54,13 @@ namespace jellybench
 
 				{
 					rocksdb::Status status = tempDB->CreateColumnFamily(rocksdb::ColumnFamilyOptions(), "seq", &cf);
-					JELLY_CHECK(status.ok(), "rocksdb::DB::CreateColumnFamily() failed: %s", status.getState());
+					JELLY_ALWAYS_ASSERT(status.ok(), "rocksdb::DB::CreateColumnFamily() failed: %s", status.getState());
 					JELLY_ASSERT(cf != NULL);
 				}
 
 				{
 					rocksdb::Status status = tempDB->DestroyColumnFamilyHandle(cf);
-					JELLY_CHECK(status.ok(), "rocksdb::DB::DestroyColumnFamilyHandle() failed: %s", status.getState());
+					JELLY_ALWAYS_ASSERT(status.ok(), "rocksdb::DB::DestroyColumnFamilyHandle() failed: %s", status.getState());
 				}
 
 				delete tempDB;
@@ -88,7 +88,7 @@ namespace jellybench
 			options.compression = _StringToCompressionType(aConfig->m_rocksDBCompression);
 
 			rocksdb::Status status = rocksdb::DB::Open(options, "rocksdb", m_columnFamilyDescriptors, &m_columnFamilyHandles, &m_db);
-			JELLY_CHECK(status.ok(), "rocksdb::DB::Open() failed: %s", status.getState());
+			JELLY_ALWAYS_ASSERT(status.ok(), "rocksdb::DB::Open() failed: %s", status.getState());
 			JELLY_ASSERT(m_db != NULL);
 		}
 
@@ -156,13 +156,13 @@ namespace jellybench
 		{
 			rocksdb::WriteOptions options;
 			rocksdb::Status status = m_internal->m_db->Put(options, m_internal->m_columnFamilyHandles[0], key, blob);
-			JELLY_CHECK(status.ok(), "rocksdb::DB::Put() failed: %s", status.getState());
+			JELLY_ALWAYS_ASSERT(status.ok(), "rocksdb::DB::Put() failed: %s", status.getState());
 		}
 
 		{
 			rocksdb::WriteOptions options;
 			rocksdb::Status status = m_internal->m_db->Put(options, m_internal->m_columnFamilyHandles[1], key, seq);
-			JELLY_CHECK(status.ok(), "rocksdb::DB::Put() failed: %s", status.getState());
+			JELLY_ALWAYS_ASSERT(status.ok(), "rocksdb::DB::Put() failed: %s", status.getState());
 		}
 	}
 

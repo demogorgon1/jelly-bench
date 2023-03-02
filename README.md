@@ -1,4 +1,6 @@
 # jelly-bench
+[![Build](https://github.com/demogorgon1/jelly-bench/actions/workflows/cmake.yml/badge.svg)](https://github.com/demogorgon1/jelly-bench/actions/workflows/cmake.yml)
+
 Comparing [jelly](https://github.com/demogorgon1/jelly) performance with other databases. As for now this is limited to two other embeddable databases: 
 
 * RocksDB, which as a LSM storage engine is conceptually fairly similar to jelly, except it's much more involved and does a lot of different things. 
@@ -52,7 +54,7 @@ jelly-bench -write_backend <backend> -write_rate <rate> -write_run_seconds 120 -
 * Only a single writing thread used.
 * Write rates from 10 to 10000 blobs per second.
 
-The test system wasn't able to handle more than 10000 blobs per second at a steady rate. If using multiple CPU cores, both Jelly and RocksDB could be configured to scale beyond this, while SQLite would have problems.
+The test system wasn't able to handle more than 10000 blobs per second at a steady rate using any storage engine. If using multiple CPU cores, both Jelly and RocksDB could be configured to scale beyond this, while SQLite would have problems.
 
 ### CPU usage
 Blob writes/second|Jelly|SQLite|RocksDB

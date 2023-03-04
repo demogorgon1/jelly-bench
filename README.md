@@ -8,7 +8,7 @@ Comparing [jelly](https://github.com/demogorgon1/jelly) performance with other d
 
 In a distributed storage system, either of these could be used in place of jelly blob nodes, which is why I want to make some comparative benchmarks. There are other embeddable databases, but these seem to be the most common ones.
 
-All tests below have been run in a single-core ubuntu VM on my laptop, using an SSD. Obviously this isn't ideal and it would interesting to run them in a more realistic environment.
+All tests below have been run in a single-core ubuntu VM on my laptop, using an SSD. Obviously this isn't ideal and it would be interesting to run them in a more realistic environment.
 
 ```
 $ lsb_release -d && uname -s -r && lscpu

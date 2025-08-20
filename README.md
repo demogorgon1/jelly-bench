@@ -6,7 +6,7 @@ Comparing [jelly](https://github.com/demogorgon1/jelly) performance with other d
 * RocksDB, which as a LSM storage engine is conceptually fairly similar to jelly, except it's much more involved and does a lot of different things. 
 * SQLite, which is pretty much the gold standard for embeddable databases. Unlike RocksDB and jelly, this is more of a traditional "one size fits all" storage engine and not specifically designed for writing a lot of blobs.
 
-In a distributed storage system, either of these could be used in place of jelly blob nodes, which is why I want to make some comparative benchmarks. There are other embeddable databases, but these seem to be the most common ones.
+In a distributed storage system, either of these could be used in place of jelly blob nodes, which is why I want to make some comparative benchmarks. There are other embeddable databases, but these seem to be among the most common ones.
 
 All tests below have been run in a single-core ubuntu VM on my laptop, using an SSD. Obviously this isn't ideal and it would be interesting to run them in a more realistic environment.
 
